@@ -1,13 +1,25 @@
 #include "model.h"
 
-const size_t Model::CountPoints() const {
-    return this->numberPoints;
+const vector<Point&> Model::getPoints() const {
+    return this->points;
 }
 
-const size_t Model::CountEdges() const {
-    return this->numberEdges;
+const vector<Edge&> Model::getEdges() const {
+    return this->edges;
 }
 
-const size_t Model::CountSurface() const {
-    return this->numberSurface;
+const vector<Surface&> Model::getSurfaces() const {
+    return this->surfaces;
+}
+
+void Model::addPoint(Point &point) {
+    points.push_back(point);
+}
+
+void Model::addEdge(Edge &edge) {
+    edges.push_back(edge);
+}
+
+void Model::addSurface(Surface &surface) {
+    surfaces.push_back(surface);
 }

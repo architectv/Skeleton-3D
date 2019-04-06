@@ -1,4 +1,35 @@
 #include <iostream>
+#include <vector>
+using std::vector;
+
+struct Point {
+  float x;
+  float y;
+  float z;
+  int index;
+
+  Point(float x_s, float y_s, float z_s, int index_s) :
+      x(x_s), y(y_s), z(z_s), index(index_s)
+      {}  
+};
+
+struct Edge {
+  const Point &start;
+  const Point &finish;
+
+  Edge(Point &start_s, Point &finish_s) :
+      start(start_s), finish(finish_s)
+      {}
+};
+
+struct Surface {
+  int numberEdges;
+  vector<Edge> edges;
+
+  Surface(vector<Edge> edges_s) :
+          edges(edges_s)
+          {}
+};
 
 class Model {
  public:
@@ -8,22 +39,31 @@ class Model {
   // destructor
   ~Model();
 
-  // сколько точек всего в модели
-  const size_t CountPoints() const;
+  // add point to model
+  void addPoint(Point &point);
 
-  // сколько ребер в модели
-  const size_t CountEdges() const;
+  // add edge to model
+  void addEdge(Edge &edge);
 
-  // сколько граней в модели
-  const size_t CountSurface() const;
+  // add surface to model
+  void addSurface(Surface &surface);
+
+  // get points
+  const vector<Point&> getPoints() const;
+
+  //get edges
+  const vector<Edge&> getEdges() const;
+
+  // get surfaces
+  const vector<Surface&> getSurfaces() const;
 
  private:
-  // количество точек
-  size_t numberPoints;
+  // points
+  vector<Point&> points;
 
-  // количество ребер
-  size_t numberEdges;
+  // edges
+  vector<Edge&> edges;
 
-  // количество граней
-  size_t numberSurface;
+  // surfaces
+  vector<Surface&> surfaces;
 };
