@@ -7,7 +7,8 @@ using std::vector;
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
-	ui(new Ui::MainWindow)
+	ui(new Ui::MainWindow),
+	MainView()
 {
 	ui->setupUi(this);
 	setWindowTitle("Skeleton3D");
@@ -30,6 +31,12 @@ void MainWindow::on_actionLoadScene_triggered()
 		return;
 	FileName = str.toStdString();
 	
+	ifstream InputFile;
+	InputFile.open(FileName);
+	if (!InputFile.is_open())
+		return;
+	
+	InputFile.close();
 }
 
 void MainWindow::on_actionSaveScene_triggered()
@@ -42,7 +49,41 @@ void MainWindow::on_actionSaveScene_triggered()
 		return;
 	FileName = str.toStdString();
 	
-	vector<Model>
+	ofstream OutputFile;
+	OutputFile.open(FileName);
+	if (!OutputFile.is_open())
+		return;
+	
+	vector<Model> Models = MainView.getModels();
+	OutputFile << Models.size() << std::endl;
+	for (int i = 0; i < Models.size(); i++)
+	{
+		vector<Point> Points = Models[i].getPoints();
+		vector<Edge> Edges = Models[i].getEdges();
+		vector<Surface> Surfaces = Models[i].getSurfaces();
+		OutputFile << Points.size() << ' ' << Edges.size() << ' ' <<
+					  Surfaces.size() << std::endl << std::endl;
+		
+		for (int j = 0; j < Points.size(); j++)
+			OutputFile << Points[j].x << ' ' << Points[j].y << ' ' <<
+						  Points[j].z << std::endl;
+		OutputFile << std::endl;
+		
+		for (int j = 0; j < Edges.size(); j++)
+			OutputFile << Edges[j].start.index << ' ' <<
+						  Edges[j].finish.index << std::endl;
+		OutputFile << std::endl;
+		
+		for (int j = 0; j < Surfaces.size(); j++)
+		{
+			OutputFile << Surfaces[j].numberEdges << ' ';
+			for (int k = 0; k < Surfaces[j].numberEdges; k++)
+				OutputFile << Surfaces[j].edges[k].index << ' ';
+		}
+		OutputFile << std::endl;
+	}
+	
+	OutputFile.close();
 }
 
 void MainWindow::on_actionLine_triggered()

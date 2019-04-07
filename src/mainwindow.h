@@ -74,6 +74,7 @@ private slots:
 private:
 	Ui::MainWindow *ui;
 	std::string FileName;
+	View MainView;
 	
 };
 
