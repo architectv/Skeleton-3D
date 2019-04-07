@@ -1,35 +1,39 @@
+#ifndef _MODEL_H
+#define _MODEL_H
+
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 using std::vector;
 
-struct Point {
+typedef struct Point_t {
   float x;
   float y;
   float z;
   int index;
 
-  Point(float x_s, float y_s, float z_s, int index_s) :
+  Point_t(float x_s, float y_s, float z_s, int index_s) :
       x(x_s), y(y_s), z(z_s), index(index_s)
       {}  
-};
+} Point;
 
-struct Edge {
-  const Point &start;
-  const Point &finish;
+typedef struct Edge_t {
+  const Point *start;
+  const Point *finish;
 
-  Edge(Point &start_s, Point &finish_s) :
+  Edge_t(Point *start_s, Point *finish_s) :
       start(start_s), finish(finish_s)
       {}
-};
+} Edge;
 
-struct Surface {
+typedef struct Surface_t {
   int numberEdges;
-  vector<Edge> edges;
+  vector<Edge *> edges;
 
-  Surface(vector<Edge> edges_s) :
+  Surface_t(vector<Edge *> edges_s) :
           edges(edges_s)
           {}
-};
+} Surface;
 
 class Model {
  public:
@@ -40,44 +44,55 @@ class Model {
   ~Model();
 
   // add point to model
-  void AddPoint(Point &newPoint);
+  void AddPoint(Point *newPoint);
 
   // add edge to model
-  void AddEdge(Edge &newEdge);
+  void AddEdge(Edge *newEdge);
 
   // add surface to model
-  void AddSurface(Surface &newSurface);
+  void AddSurface(Surface *newSurface);
+
+  // delete point from model
+  void DeletePoint(const Point *delPoint);
+
+  // delete Edge from model
+  void DeleteEdge(const Edge *delEdge);
+
+  // delete Surface from model
+  void DeleteSurface(const Surface *delSurface);
 
   // get points
-  const vector<Point&> GetPoints() const;
+  const vector<Point *> GetPoints() const;
 
   //get edges
-  const vector<Edge&> GetEdges() const;
+  const vector<Edge *> GetEdges() const;
 
   // get surfaces
-  const vector<Surface&> GetSurfaces() const;
+  const vector<Surface *> GetSurfaces() const;
 
   // is point already in model
-  const bool IsPointInModel(Point &pointCheck) const;
+  const bool IsPointInModel(const Point *pointCheck) const;
 
   // is edge alredy in model
-  const bool IsEdgeInModel(Edge &edgeCheck) const;
+  const bool IsEdgeInModel(const Edge *edgeCheck) const;
 
   // is surface already in model
-  const bool IsSurfaceInModel(Surface &surfaceCheck) const;
+  const bool IsSurfaceInModel(const Surface *surfaceCheck) const;
 
  private:
   // points
-  vector<Point&> points;
+  vector<Point *> points;
 
   // edges
-  vector<Edge&> edges;
+  vector<Edge *> edges;
 
   // surfaces
-  vector<Surface&> surfaces;
+  vector<Surface *> surfaces;
 
-  const bool isEqualCoords(float one, float two) const;
-  const bool isEqualPoints(Point one, Point two) const;
-  const bool isEqualEdges(Edge one, Edge two) const;
-  const bool isEqualSurfaces(Surface one, Surface two) const;
+  const bool isEqualCoords(const float one, const float two) const;
+  const bool isEqualPoints(const Point * one, const Point *two) const;
+  const bool isEqualEdges(const Edge *one, const Edge *two) const;
+  const bool isEqualSurfaces(const Surface *one, const Surface *two) const;
 };
+
+#endif // _MODEL_H
