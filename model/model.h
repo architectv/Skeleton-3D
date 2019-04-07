@@ -40,22 +40,31 @@ class Model {
   ~Model();
 
   // add point to model
-  void addPoint(Point &point);
+  void AddPoint(Point &newPoint);
 
   // add edge to model
-  void addEdge(Edge &edge);
+  void AddEdge(Edge &newEdge);
 
   // add surface to model
-  void addSurface(Surface &surface);
+  void AddSurface(Surface &newSurface);
 
   // get points
-  const vector<Point&> getPoints() const;
+  const vector<Point&> GetPoints() const;
 
   //get edges
-  const vector<Edge&> getEdges() const;
+  const vector<Edge&> GetEdges() const;
 
   // get surfaces
-  const vector<Surface&> getSurfaces() const;
+  const vector<Surface&> GetSurfaces() const;
+
+  // is point already in model
+  const bool IsPointInModel(Point &pointCheck) const;
+
+  // is edge alredy in model
+  const bool IsEdgeInModel(Edge &edgeCheck) const;
+
+  // is surface already in model
+  const bool IsSurfaceInModel(Surface &surfaceCheck) const;
 
  private:
   // points
@@ -66,4 +75,9 @@ class Model {
 
   // surfaces
   vector<Surface&> surfaces;
+
+  const bool isEqualCoords(float one, float two) const;
+  const bool isEqualPoints(Point one, Point two) const;
+  const bool isEqualEdges(Edge one, Edge two) const;
+  const bool isEqualSurfaces(Surface one, Surface two) const;
 };
