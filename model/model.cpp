@@ -8,7 +8,7 @@ Model::~Model() {
     surfaces.clear();
 }
 const bool Model::isEqualCoords(float one, float two) const {
-  if (one - two < 1e-5) {
+  if (fabs(one - two) < 1e-5) {
     return true;
   }
   return false;
@@ -24,8 +24,8 @@ const bool Model::isEqualPoints(const Point &one, const Point &two) const {
 }
 
 const bool Model::isEqualEdges(const Edge &one, const Edge &two) const {
-    if (one.startInd == two.startInd && one.endInd == two.startInd ||
-        one.endInd == two.startInd && one.startInd == two.endInd) {
+    if ( (one.startInd == two.startInd && one.endInd == two.endInd) ||
+         (one.endInd == two.startInd && one.startInd == two.endInd)) {
              return true;
         }
     return false;
@@ -37,12 +37,15 @@ const bool Model::isEqualSurfaces(const Surface &one, const Surface &two) const 
     } else {
         size_t size = one.edges.size();
         for (size_t i = 0; i < size; i++) {
-            for (size_t j = 0; j < size; j++) {
+            bool check = true;
+            for (size_t j = 0; j < size && check == true; j++) {
                 if (isEqualEdges(edges[one.edges[i]], edges[two.edges[j]])) {
-                    break;
+                    check = false;
                 }
             }
-            return false;
+            if (check == true) {
+                return false;
+            }
         }
         return true;
     }
@@ -112,8 +115,8 @@ void Model::DeletePoint(const Point &delPoint) {
     for (size_t i = 0; i < points.size(); i++) {
         if (isEqualPoints(points[i], delPoint)) {
             for (size_t j = 0; j < edges.size(); j++) {
-                if ((isEqualPoints(points[edges[i].endInd], delPoint) ||
-                      isEqualPoints(points[edges[i].startInd], delPoint))) {
+                if ((isEqualPoints(points[edges[j].endInd], delPoint) ||
+                      isEqualPoints(points[edges[j].startInd], delPoint))) {
                           DeleteEdge(edges[j]);
                     }
             }
@@ -138,7 +141,7 @@ void Model::DeleteEdge(const Edge &delEdge) {
             for (size_t j = 0; j < surfaces.size(); j++) {
                 bool flag = 1;
                 for (size_t edge = 0; edge < surfaces[j].edges.size() && flag; edge++) {
-                    if (isEqualEdges(delEdge, surfaces[j].edges.at[edge]) && flag) {
+                    if (isEqualEdges(delEdge, edges[surfaces[j].edges[edge]]) && flag) {
                         DeleteSurface(surfaces[j]);
                         j--;
                         flag = 0;
@@ -164,6 +167,30 @@ void Model::DeleteSurface(const Surface &delSurface) {
         if (isEqualSurfaces(surfaces[i], delSurface)) {
             surfaces.erase(surfaces.begin() + i);
             return;
+        }
+    }
+}
+
+void Model::PrintData() const {
+    printf("\n");
+    printf("==================\n");
+    printf("Points");
+    for (size_t i = 0; i < points.size(); i++) {
+        printf("\n%lu. x = %f; y = %f; z = %f;", i, points[i].x, points[i].y, points[i].z);
+    }
+    printf("\n");
+    printf("==================\n");
+    printf("Edges");
+    for (size_t i = 0; i < edges.size(); i++) {
+        printf("\n%lu. start = %d; end = %d;", i, edges[i].startInd, edges[i].endInd);
+    }
+    printf("\n");
+    printf("==================\n");
+    printf("Surfaces");
+    for (size_t i = 0; i < surfaces.size(); i++) {
+        printf("\n%lu.", i);
+        for (size_t j = 0; j < surfaces[i].edges.size(); j++) {
+            printf(" %d,", surfaces[i].edges[j]);
         }
     }
 }

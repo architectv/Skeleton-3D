@@ -4,16 +4,16 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
+#include <math.h>
 using std::vector;
 
 struct Point {
   float x;
   float y;
   float z;
-  bool isDeleted;
 
-  Point(float x_s, float y_s, float z_s, int index_s) :
-      x(x_s), y(y_s), z(z_s), isDeleted(false)
+  Point(float x_s, float y_s, float z_s) :
+      x(x_s), y(y_s), z(z_s)
       {}  
 };
 
@@ -77,6 +77,9 @@ class Model {
 
   // is surface already in model
   const bool IsSurfaceInModel(const Surface &surfaceCheck) const;
+
+  // print data about model in terminal
+  void PrintData() const;
 
  private:
   // points
