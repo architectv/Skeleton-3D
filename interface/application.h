@@ -4,7 +4,7 @@
 #include <QApplication>
 
 #include "window.h"
-//#include "scene.h"
+#include "./display/scene.h"
 
 class Application : public QApplication
 {
@@ -17,8 +17,8 @@ public:
 	
 private:
 	Window mainWindow;
-	/*std::vector<Scene> scenes;
-	Scene *curScene;*/
+	std::vector<Scene> scenes;
+	Scene *curScene;
 	std::string fileName;
 };
 
