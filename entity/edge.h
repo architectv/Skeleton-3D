@@ -18,10 +18,10 @@ class Edge : public Entity {
         Surface &Lift(double, double, double);
 
     private:
-        size_t startInd;
-        size_t endInd;
-        Point &startPoint;
-        Point &endPoint;
+        size_t start_ind;
+        size_t end_ind;
+        Point &start_point;
+        Point &end_point;
 };
 
 #endif // EDGE_H

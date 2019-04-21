@@ -18,7 +18,7 @@ class Surface : public Entity {
 
         Model &Lift(double);
     private:
-        vector<size_t> edgesInd;
+        vector<size_t> edges_ind;
         vector<Edge *> edges;
 };
 
