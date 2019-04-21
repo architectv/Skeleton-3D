@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-// #include "entity/model.h"
+#include "model.h"
 
 class Scene {
  public:
