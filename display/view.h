@@ -2,19 +2,23 @@
 #define VIEW_H_
 
 #include "scene.h"
-#include "camera.h"
-#include "surface.h"
+#include "entity/camera.h"
+#include "entity/surface.h"
+
 
 class View {
  public:
+  View();
+  
+  DrawScene(const Scene& scene);
 
-  void DrawScene();
-  void DrawModel(const Model& model);
-  void DrawSurface(const Surface& surface);
+  Camera& camera();
 
  private:
-  Scene scene_;
   Camera camera_;
+
+  void DrawModel(const Model& model);
+  void DrawSurface(const Surface& surface);
 };
 
 #endif  // VIEW_H_
