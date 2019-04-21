@@ -2,8 +2,8 @@
 #define VIEW_H_
 
 #include "scene.h"
-// #include "camera.h"
-// #include "entity/surface.h"
+#include "camera.h"
+#include "surface.h"
 
 class View {
  public:

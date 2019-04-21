@@ -7,8 +7,6 @@
 #include "surface.h"
 #include <string>
 #include <vector>
-using std::string;
-using std::vector;
 
 class Model : public Entity {
     public:
@@ -30,11 +28,11 @@ class Model : public Entity {
         void DeleteSurface(const Surface &delSurface);
 
         // get points
-        const vector<Point> GetPoints() const;
+        const std::vector<Point>& GetPoints() const;
         //get edges
-        const vector<Edge> GetEdges() const;
+        const std::vector<Edge>& GetEdges() const;
         // get surfaces
-        const vector<Surface> GetSurfaces() const;
+        const std::vector<Surface>& GetSurfaces() const;
 
         // is point already in model
         const bool IsPointInModel(const Point &pointCheck) const;
@@ -43,18 +41,22 @@ class Model : public Entity {
         // is surface already in model
         const bool IsSurfaceInModel(const Surface &surfaceCheck) const;
         
-        const string GetName() const;
-        void SetName(string);
+        const std::string GetName() const;
+        void SetName(std::string);
+
+        void Move(double, double, double) override;
+        void Rotate(double, double, double, Point) override;
+        void Scale(double, double, double, Point) override;
 
         Model &Union(vector<Entity>);
         Model &Intersect(vector<Entity>);
         Model &Trim(vector<Entity>);
 
     private:
-        string name;
-        vector<Point> points;
-        vector<Edge> edges;
-        vector<Surface> surfaces;
+        std::string name;
+        std::vector<Point> points;
+        std::vector<Edge> edges;
+        std::vector<Surface> surfaces;
         // glTexture texture;
 };
 

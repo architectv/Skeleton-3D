@@ -2,7 +2,7 @@
 #define CAMERA_H_
 
 #include "point.h"
-// #include "matrix.h"
+#include "matrix.h"
 
 class Camera {
  public:

@@ -11,9 +11,9 @@ class Edge : public Entity {
             startInd(start), startPoint(start_p),
             endInd(end), endPoint(end_p) {}
 
-        void Move(double, double, double) const;
-        void Rotate(double, double, double, Point) const;
-        void Scale(double, double, double, Point) const;
+        void Move(double, double, double) override;
+        void Rotate(double, double, double, Point) override;
+        void Scale(double, double, double, Point) override;
 
         Surface &Lift(double, double, double);
 
