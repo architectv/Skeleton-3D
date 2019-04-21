@@ -19,6 +19,7 @@ public:
 	
 	void AddView();
 	void DeleteView();
+	void SelectView(int index);
 	
 private:
 	Ui::Window *ui;
