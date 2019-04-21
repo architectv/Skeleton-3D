@@ -3,8 +3,10 @@
 
 #include <surface.h>
 
-class SurfaceCreator: public Surface {
+class SurfaceCreator {
  public:
+    ~SurfaceCreator() = default;
+    
     Surface CreateRectPlane(Point, Point);
     Surface CreateDisc(Point, double, double);
     Surface CreatePolygonPlane(Point, double, int);

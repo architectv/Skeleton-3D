@@ -3,8 +3,10 @@
 
 #include <edge.h>
 
-class CurveCreator: public Edge {
+class CurveCreator {
  public:
+    ~CurveCreator() = default;
+
     Edge CreateLine(Point, Point);
     vector<Edge> CreateRectangle(Point, Point);
     vector<Edge> CreateEllipse(Point, double, double);

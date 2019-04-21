@@ -3,8 +3,10 @@
 
 #include <model.h>
 
-class ModelCreator: public Model {
+class ModelCreator {
  public:
+    ~ModelCreator() = default;
+    
     Model CreateCube(Point, double);
     Model CreateSphere(Point, double);
     Model CreateCylinder(Point, double, double);
