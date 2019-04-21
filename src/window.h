@@ -1,26 +1,24 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef WINDOW_H
+#define WINDOW_H
 
 #include <QMainWindow>
-#include <QToolBar>
-#include <QPushButton>
 
-#include <iostream>
-
-#include "model.h"
-#include "scene.h"
+//#include "view.h"
 
 namespace Ui {
-class MainWindow;
+class Window;
 }
 
-class MainWindow : public QMainWindow
+class Window : public QMainWindow
 {
 	Q_OBJECT
 	
 public:
-	explicit MainWindow(QWidget *parent = 0);
-	~MainWindow();
+	explicit Window(QWidget *parent = 0);
+	~Window();
+	
+	void AddView();
+	void DeleteView();
 	
 private slots:
 	void on_actionLoadScene_triggered();
@@ -72,10 +70,9 @@ private slots:
 	void on_actionProjection_triggered();
 	
 private:
-	Ui::MainWindow *ui;
-	std::string FileName;
-	View MainView;
-	
+	Ui::Window *ui;
+	/*std::vector<View> views;
+	std::vector<View*> curViews;*/
 };
 
-#endif // MAINWINDOW_H
+#endif // WINDOW_H

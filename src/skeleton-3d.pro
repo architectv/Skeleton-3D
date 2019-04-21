@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-04-07T09:58:39
+# Project created by QtCreator 2019-04-21T11:32:52
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = skeleton_3d
+TARGET = skeleton-3d
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -25,14 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        window.cpp \
+    application.cpp
 
 HEADERS += \
-        mainwindow.h
+        window.h \
+    application.h
 
 FORMS += \
-        mainwindow.ui
-
-DISTFILES +=
-
-RESOURCES +=
+        window.ui
