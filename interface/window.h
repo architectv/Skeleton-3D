@@ -20,6 +20,7 @@ public:
 	void AddView();
 	void DeleteView();
 	void SelectView(int index);
+	void UnselectView(int index);
 	
 private:
 	Ui::Window *ui;

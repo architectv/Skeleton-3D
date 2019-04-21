@@ -14,6 +14,7 @@ public:
 	void NewScene();
 	void LoadScene();
 	void SaveScene();
+	void SelectScene(int index);
 	
 private:
 	Window mainWindow;
