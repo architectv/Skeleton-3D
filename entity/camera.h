@@ -4,7 +4,7 @@
 #include "point.h"
 #include "matrix.h"
 
-class Camera {
+class Camera : Entity {
  public:
   Camera();
   Matrix world_to_view();
