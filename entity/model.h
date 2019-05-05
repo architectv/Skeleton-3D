@@ -1,9 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "entity.h"
-#include "point.h"
-#include "edge.h"
 #include "surface.h"
 #include <string>
 #include <vector>
@@ -11,7 +8,6 @@
 class Model : public Entity {
     public:
         Model();
-        ~Model();
 
         // add point to model
         void AddPoint(Point &newPoint);
@@ -35,18 +31,18 @@ class Model : public Entity {
         const std::vector<Surface>& GetSurfaces() const;
 
         // is point already in model
-        const bool IsPointInModel(const Point &pointCheck) const;
+        bool IsPointInModel(const Point &pointCheck) const;
         // is edge alredy in model
-        const bool IsEdgeInModel(const Edge &edgeCheck) const;
+        bool IsEdgeInModel(const Edge &edgeCheck) const;
         // is surface already in model
-        const bool IsSurfaceInModel(const Surface &surfaceCheck) const;
+        bool IsSurfaceInModel(const Surface &surfaceCheck) const;
         
         const std::string GetName() const;
         void SetName(std::string);
 
-        void Move(double, double, double) override;
-        void Rotate(double, double, double, Point) override;
-        void Scale(double, double, double, Point) override;
+        void Move(const double&, const double&, const double&) override;
+        void Rotate(const double&, const double&, const double&, const Point&) override;
+        void Scale(const double&, const double&, const double&, const Point&) override;
 
         Model &Union(vector<Entity>);
         Model &Intersect(vector<Entity>);

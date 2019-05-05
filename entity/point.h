@@ -2,26 +2,40 @@
 #define POINT_H
 
 #include "entity.h"
-
 #include <cmath>
 
 class Point : public Entity {
     public:
-        Point(float x_s, float y_s, float z_s) : x(x_s), y(y_s), z(z_s) {}
+        Point(double x_s, double y_s, double z_s) : x(x_s), y(y_s), z(z_s) {}
+        Point(const Point&);
+        Point(Point*);
+        virtual ~Point();
         void Move(const double&, const double&, const double&);
         void Rotate(const double&, const double&, const double&, const Point&);
         void Scale(const double&, const double&, const double&, const Point&);
     
     private:
-        float x;
-        float y;
-        float z;
+        double x;
+        double y;
+        double z;
 
         void rotateByX(const double& angle, const Point& center);
         void rotateByY(const double& angle, const Point& center);
         void rotateByZ(const double& angle, const Point& center);
         double scaleFormula(const double& coordinate, const double& factor, const double& center);
 };
+
+Point::Point(const Point& input) {
+    x = input.x;
+    y = input.y;
+    z = input.z;
+}
+
+Point::Point(Point* input) {
+    x = input->x;
+    y = input->y;
+    z = input->z;
+}
 
 void Point::rotateByX(const double& angle, const Point& center) {
     const double a = y, b = z, c = center.y, d = center.z;

@@ -4,10 +4,11 @@
 #include "point.h"
 //#include "matrix.h"
 
+class Matrix;
 class Camera : Entity {
  public:
   Camera();
-  //Matrix world_to_view();
+  Matrix world_to_view();
 
  private:
   Point position_;

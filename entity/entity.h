@@ -1,13 +1,15 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "point.h"
+class Point;
 
 class Entity {
     public:
-        virtual void Move(double, double, double);
-        virtual void Rotate(double, double, double, Point);
-        virtual void Scale(double, double, double, Point);
+        Entity();
+        virtual ~Entity();
+        virtual void Move(const double&, const double&, const double&);
+        virtual void Rotate(const double&, const double&, const double&, const Point&);
+        virtual void Scale(const double&, const double&, const double&, const Point&);
 };
 
 #endif // ENTITY_H
