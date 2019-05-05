@@ -2,7 +2,17 @@
 #define POINT_HPP
 
 #include "entity.h"
-#include <cmath>
+
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+Point::~Point() {}
+
+Point::Point():
+    x(0), y(0), z(0) {}
+
+Point::Point(double x_s, double y_s, double z_s):
+    x(x_s), y(y_s), z(z_s) {}
 
 Point::Point(const Point& input) {
     x = input.x;
@@ -10,13 +20,17 @@ Point::Point(const Point& input) {
     z = input.z;
 }
 
-Point::Point(Point* input) {
-    x = input->x;
-    y = input->y;
-    z = input->z;
+Point::Point(std::initializer_list<double> input) {
+    if (input.size() != 3) {
+        return;
+    }
+
+    x = *input.begin();
+    y = *(input.begin() + 1);
+    z = *input.end();
 }
 
-void Point::rotateByX(const double& angle, const Point& center) {
+void Point::rotateByX(const Point& center, double angle) {
     const double a = y, b = z, c = center.y, d = center.z;
     const double cos_a = cos(angle), sin_a = sin(angle);
 
@@ -27,7 +41,7 @@ void Point::rotateByX(const double& angle, const Point& center) {
     z = new_b;
 }
 
-void Point::rotateByY(const double& angle, const Point& center) {
+void Point::rotateByY(const Point& center, double angle) {
     const double a = x, b = z, c = center.x, d = center.z;
     const double cos_a = cos(angle), sin_a = sin(angle);
 
@@ -38,7 +52,7 @@ void Point::rotateByY(const double& angle, const Point& center) {
     z = new_b;
 }
 
-void Point::rotateByZ(const double& angle, const Point& center) {
+void Point::rotateByZ(const Point& center, double angle) {
     const double a = x, b = y, c = center.x, d = center.y;
     const double cos_a = cos(angle), sin_a = sin(angle);
 
@@ -49,30 +63,39 @@ void Point::rotateByZ(const double& angle, const Point& center) {
     y = new_b;
 }
 
-void Point::Move(const double& dx, const double& dy, const double& dz) {
+void Point::Move(double dx, double dy, double dz) {
     x += dx;
     y += dy;
     z += dz;
 }
 
-void Point::Rotate(const double& dx, const double& dy, const double& dz, const Point& center) {
-    rotateByX(dx, center);
-    rotateByY(dy, center);
-    rotateByZ(dz, center); 
+void DegreesToRadian(double *coord) {
+    *coord *= M_PI / 180;
 }
 
-void Point::Scale(const double& dx, const double& dy, const double& dz, const Point& center) {
-    x = scaleFormula(x, dx, center.x);
-    y = scaleFormula(y, dy, center.y);
-    z = scaleFormula(z, dz, center.z);
+void Point::Rotate(const Point& center, double dx, double dy, double dz) {
+    DegreesToRadian(&dx);
+    DegreesToRadian(&dy);
+    DegreesToRadian(&dz);
+
+    rotateByX(center, dx);
+    rotateByY(center, dy);
+    rotateByZ(center, dz); 
 }
 
-double Point::scaleFormula(const double& coordinate, const double& factor, const double& center) {
+void Point::Scale(const Point& center, double dx, double dy, double dz) {
+    x = scaleFormula(center.x, x, dx);
+    y = scaleFormula(center.y, y, dy);
+    z = scaleFormula(center.z, z, dz);
+}
+
+double Point::scaleFormula(double center, double coordinate, double factor) {
     return coordinate * factor + (1 - factor) * center;
 }
 
-bool Point::operator ==(const Point& input) const {
-    double eps = 1e-05;
+bool Point::operator==(const Point& input) const {
+    const double eps = 1e-05;
+
     if (fabs(x - input.x) < eps) {
         if (fabs(y - input.y) < eps) {
             if (fabs(z - input.z) < eps) {
@@ -80,15 +103,12 @@ bool Point::operator ==(const Point& input) const {
             }
         }
     }
+
     return false;
 }
 
-bool Point::operator !=(const Point& input) const {
-    if (*this == input) {
-        return false;
-    } else {
-        return true;
-    }
+bool Point::operator!=(const Point& input) const {
+    return !(*this == input);
 }
 
 #endif // POINT_H
