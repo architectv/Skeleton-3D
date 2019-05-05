@@ -2,12 +2,12 @@
 #define CAMERA_H_
 
 #include "point.h"
-#include "matrix.h"
+//#include "matrix.h"
 
 class Camera : Entity {
  public:
   Camera();
-  Matrix world_to_view();
+  //Matrix world_to_view();
 
  private:
   Point position_;
