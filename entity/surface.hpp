@@ -1,14 +1,12 @@
 #ifndef SURFACE_H
 #define SURFACE_H
-#pragma once
 
 #include "entity.h"
 
 #include <vector>
 using std::vector;
 
-
-Surface::Surface(vector<size_t> edgesInd_s, vector<Edge *> edges_s) {
+Surface::Surface(vector<Edge*> edges_s, vector<size_t> edgesInd_s) {
     edges_ind = edgesInd_s;
     edges = edges_s;
 }
@@ -18,20 +16,11 @@ Surface::Surface(const Surface& input) {
     edges.resize(edges_ind.size(), nullptr);
 
     for (size_t i = 0; i < input.edges.size(); ++i) {
-        *edges[i] = Edge(input.edges[i]);
+        *edges[i] = *input.edges[i];
     }
 }
 
-Surface::Surface(const Surface* input) {
-    edges_ind = input->edges_ind;
-    edges.resize(edges_ind.size(), nullptr);
-
-    for (size_t i = 0; i < input->edges.size(); ++i) {
-        *edges[i] = Edge(input->edges[i]);
-    }
-}
-
-bool Surface::operator ==(const Surface& input) const {
+bool Surface::operator==(const Surface& input) const {
     if (this->edges.size() != input.edges.size()) {
         return false;
     } else {
@@ -50,12 +39,9 @@ bool Surface::operator ==(const Surface& input) const {
         return true;
     }
 }
-bool Surface::operator !=(const Surface& input) const {
-    if (*this == input) {
-        return false;
-    } else {
-        return true;
-    }
+
+bool Surface::operator!=(const Surface& input) const {
+    return !(*this == input);
 }
 
 #endif // SURFACE_H

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+
 using std::vector;
 using std::string;
 
@@ -53,46 +54,43 @@ class Point: public Entity {
 
 class Edge: public Entity {
  public:
-    Edge(size_t start, Point& start_p, size_t end, Point& end_p):
-        startInd(start), endInd(end),
-        startPoint(&start_p), endPoint(&end_p) {}
+    Edge(Point& start_p, Point& end_p, size_t start, size_t end);
     Edge(const Edge&);
-    Edge(const Edge*);
 
     void Move(double, double, double);
     void Rotate(const Point& center, double dx, double dy, double dz);
     void Scale(const Point& center, double dx, double dy, double dz);
 
-    Surface Lift(const double&, const double&, const double&);
+    Surface Lift(double, double, double);
 
-    bool operator==(const Edge& input) const;
-    bool operator!=(const Edge& input) const;
+    bool operator==(const Edge&) const;
+    bool operator!=(const Edge&) const;
 
  private:
     size_t startInd;
     size_t endInd;
+
     Point* startPoint;
     Point* endPoint;
 };
 
-class Surface : public Entity {
+class Surface: public Entity {
  public:
-    Surface(vector<size_t> edgesInd_s, vector<Edge *> edges_s);
+    Surface(vector<Edge*> edges_s, vector<size_t> edgesInd_s);
     Surface(const Surface&);
-    Surface(const Surface*);
 
     void Move(double, double, double);
     void Rotate(const Point& center, double dx, double dy, double dz);
     void Scale(const Point& center, double dx, double dy, double dz);
 
-    Model &Lift(const double&);
+    Model& Lift(double);
 
-    bool operator ==(const Surface& input) const;
-    bool operator !=(const Surface& input) const;
+    bool operator==(const Surface& input) const;
+    bool operator!=(const Surface& input) const;
 
  private:
     vector<size_t> edges_ind;
-    vector<Edge *> edges;
+    vector<Edge*> edges;
 };
 
 class Model : public Entity {
