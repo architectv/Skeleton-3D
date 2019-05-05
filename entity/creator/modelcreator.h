@@ -1,7 +1,7 @@
 #ifndef MODELCREATOR_H
 #define MODELCREATOR_H
 
-#include <model.h>
+#include <entity.h>
 
 class ModelCreator {
  public:

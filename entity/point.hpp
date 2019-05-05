@@ -1,29 +1,8 @@
-#ifndef POINT_H
-#define POINT_H
+#ifndef POINT_HPP
+#define POINT_HPP
 
 #include "entity.h"
 #include <cmath>
-
-class Point : public Entity {
-    public:
-        Point(double x_s, double y_s, double z_s) : x(x_s), y(y_s), z(z_s) {}
-        Point(const Point&);
-        Point(Point*);
-        virtual ~Point();
-        void Move(const double&, const double&, const double&);
-        void Rotate(const double&, const double&, const double&, const Point&);
-        void Scale(const double&, const double&, const double&, const Point&);
-    
-    private:
-        double x;
-        double y;
-        double z;
-
-        void rotateByX(const double& angle, const Point& center);
-        void rotateByY(const double& angle, const Point& center);
-        void rotateByZ(const double& angle, const Point& center);
-        double scaleFormula(const double& coordinate, const double& factor, const double& center);
-};
 
 Point::Point(const Point& input) {
     x = input.x;
@@ -90,6 +69,26 @@ void Point::Scale(const double& dx, const double& dy, const double& dz, const Po
 
 double Point::scaleFormula(const double& coordinate, const double& factor, const double& center) {
     return coordinate * factor + (1 - factor) * center;
+}
+
+bool Point::operator ==(const Point& input) const {
+    double eps = 1e-05;
+    if (fabs(x - input.x) < eps) {
+        if (fabs(y - input.y) < eps) {
+            if (fabs(z - input.z) < eps) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Point::operator !=(const Point& input) const {
+    if (*this == input) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 #endif // POINT_H

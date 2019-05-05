@@ -1,7 +1,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#include "point.h"
+#include "entity.h"
 //#include "matrix.h"
 
 class Matrix;
