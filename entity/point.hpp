@@ -27,7 +27,7 @@ Point::Point(std::initializer_list<double> input) {
 
     x = *input.begin();
     y = *(input.begin() + 1);
-    z = *input.end();
+    z = *(input.begin() + 1);
 }
 
 void Point::rotateByX(const Point& center, double angle) {
