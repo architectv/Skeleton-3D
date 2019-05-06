@@ -96,12 +96,10 @@ double Point::scaleFormula(double center, double coordinate, double factor) {
 bool Point::operator==(const Point& input) const {
     const double eps = 1e-05;
 
-    if (fabs(x - input.x) < eps) {
-        if (fabs(y - input.y) < eps) {
-            if (fabs(z - input.z) < eps) {
-                return true;
-            }
-        }
+    if (fabs(x - input.x) < eps
+    && (fabs(y - input.y) < eps)
+    && (fabs(z - input.z) < eps)) {
+        return true;
     }
 
     return false;

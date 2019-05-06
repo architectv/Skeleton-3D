@@ -23,21 +23,24 @@ Surface::Surface(const Surface& input) {
 bool Surface::operator==(const Surface& input) const {
     if (this->edges.size() != input.edges.size()) {
         return false;
-    } else {
-        size_t size = this->edges.size();
-        for (size_t i = 0; i < size; i++) {
-            bool check = true;
-            for (size_t j = 0; j < size && check; j++) {
-                if (this->edges[i] == input.edges[j]) {
-                    check = false;
-                }
-            }
-            if (check == true) {
-                return false;
+    }
+
+    size_t size = this->edges.size();
+    for (size_t i = 0; i < size; ++i) {
+        bool check = true;
+
+        for (size_t j = 0; j < size && check; ++j) {
+            if (this->edges[i] == input.edges[j]) {
+                check = false;
             }
         }
-        return true;
+
+        if (check) {
+            return false;
+        }
     }
+    
+    return true;
 }
 
 bool Surface::operator!=(const Surface& input) const {
