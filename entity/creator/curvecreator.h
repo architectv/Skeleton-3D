@@ -1,7 +1,7 @@
 #ifndef CURVECREATOR_H
 #define CURVECREATOR_H
 
-#include <edge.h>
+#include <entity.h>
 
 class CurveCreator {
  public:

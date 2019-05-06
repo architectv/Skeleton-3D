@@ -1,7 +1,7 @@
 #ifndef SURFACECREATOR_H
 #define SURFACECREATOR_H
 
-#include <surface.h>
+#include <entity.h>
 
 class SurfaceCreator {
  public:

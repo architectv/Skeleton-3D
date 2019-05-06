@@ -1,13 +1,14 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#include "point.h"
-#include "matrix.h"
+#include "entity.h"
+//#include "matrix.h"
 
+class Matrix;
 class Camera : Entity {
  public:
   Camera();
-  Matrix world_to_view();
+  Matrix world_to_view() const;
 
  private:
   Point position_;
