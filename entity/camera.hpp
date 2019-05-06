@@ -8,7 +8,7 @@ class Matrix;
 class Camera : Entity {
  public:
   Camera();
-  Matrix world_to_view();
+  Matrix world_to_view() const;
 
  private:
   Point position_;
