@@ -54,6 +54,7 @@ class Point: public Entity {
 class Edge: public Entity {
  public:
     friend class Surface;
+    friend class Model;
     Edge(Point& start_p, Point& end_p, size_t start, size_t end);
     Edge(const Edge&);
 
@@ -77,6 +78,7 @@ class Edge: public Entity {
 class Surface: public Entity {
  public:
     friend class Edge;
+    friend class Model;
     Surface(vector<Edge*> edges_s, vector<size_t> edgesInd_s);
     Surface(const Surface&);
 
@@ -98,6 +100,8 @@ class Surface: public Entity {
 
 class Model : public Entity {
  public:
+    friend class Edge;
+    friend class Surface;
     Model();
 
     // add point to model
@@ -115,11 +119,11 @@ class Model : public Entity {
     void DeleteSurface(const Surface &delSurface);
 
     // get points
-    const std::vector<Point>& GetPoints() const;
+    const std::vector<Point*>& GetPoints() const;
     //get edges
-    const std::vector<Edge>& GetEdges() const;
+    const std::vector<Edge*>& GetEdges() const;
     // get surfaces
-    const std::vector<Surface>& GetSurfaces() const;
+    const std::vector<Surface*>& GetSurfaces() const;
 
     // is point already in model
     bool IsPointInModel(const Point &pointCheck) const;
@@ -141,9 +145,10 @@ class Model : public Entity {
 
  private:
     std::string name;
-    std::vector<Point> points;
-    std::vector<Edge> edges;
-    std::vector<Surface> surfaces;
+    std::vector<Point*> points;
+    std::vector<Edge*> edges;
+    std::vector<Surface*> surfaces;
+    vector<Point *> getPointsFromThis() const;
     // glTexture texture;
 };
 
