@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <iostream>
 #include <vector>
 #include <string>
 
@@ -21,8 +22,6 @@ class Entity {
     virtual void Rotate(const Point&, double, double, double) = 0;
     virtual void Scale(const Point&, double, double, double) = 0;
 };
-
-#include <iostream>
 
 class Point: public Entity {
  public:
@@ -54,6 +53,7 @@ class Point: public Entity {
 
 class Edge: public Entity {
  public:
+    friend class Surface;
     Edge(Point& start_p, Point& end_p, size_t start, size_t end);
     Edge(const Edge&);
 
@@ -76,6 +76,7 @@ class Edge: public Entity {
 
 class Surface: public Entity {
  public:
+    friend class Edge;
     Surface(vector<Edge*> edges_s, vector<size_t> edgesInd_s);
     Surface(const Surface&);
 
@@ -91,6 +92,8 @@ class Surface: public Entity {
  private:
     vector<size_t> edges_ind;
     vector<Edge*> edges;
+
+    vector<Point *> getPointsFromThis() const;
 };
 
 class Model : public Entity {
