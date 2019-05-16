@@ -15,6 +15,10 @@ using Vector2 = Vector<2>;
 using Vector3 = Vector<3>;
 using Vector4 = Vector<4>;
 
+constexpr bool Is2or3or4(std::size_t size) { return size == 2 || size == 3 || size == 4; }
+constexpr bool Is3or4(std::size_t size) { return size == 3 || size == 4; }
+constexpr bool Is4(std::size_t size) { return size == 4; }
+
 template <std::size_t size>
 class Vector {
   static_assert(size != 0, "Zero dimension vector does not exist");
@@ -29,15 +33,15 @@ class Vector {
   float& operator[](std::size_t index);
   constexpr float operator[](std::size_t index) const;
 
-  constexpr float x() const = delete;
-  constexpr float y() const = delete;
-  constexpr float z() const = delete;
-  constexpr float w() const = delete;
+  template <bool EnableBool = true> constexpr typename std::enable_if<Is2or3or4(size) && EnableBool, float>::type x() const;
+  template <bool EnableBool = true> constexpr typename std::enable_if<Is2or3or4(size) && EnableBool, float>::type y() const;
+  template <bool EnableBool = true> constexpr typename std::enable_if<Is3or4(size) && EnableBool, float>::type z() const;
+  template <bool EnableBool = true> constexpr typename std::enable_if<Is4(size) && EnableBool, float>::type w() const;
 
-  void set_x(float x) = delete;
-  void set_y(float y) = delete;
-  void set_z(float z) = delete;
-  void set_w(float w) = delete;
+  template <bool EnableBool = true> constexpr typename std::enable_if<Is2or3or4(size) && EnableBool>::type set_x(float x);
+  template <bool EnableBool = true> constexpr typename std::enable_if<Is2or3or4(size) && EnableBool>::type set_y(float y);
+  template <bool EnableBool = true> constexpr typename std::enable_if<Is3or4(size) && EnableBool>::type set_z(float z);
+  template <bool EnableBool = true> constexpr typename std::enable_if<Is4(size) && EnableBool>::type set_w(float w);
 
   constexpr bool operator==(const Vector<size>& other) const;
   constexpr bool operator!=(const Vector<size>& other) const;
@@ -121,25 +125,45 @@ constexpr float Vector<size>::operator[](std::size_t index) const {
   return data_[index];
 }
 
-template <> constexpr float Vector<2>::x() const { return data_[0]; }
-template <> constexpr float Vector<3>::x() const { return data_[0]; }
-template <> constexpr float Vector<4>::x() const { return data_[0]; }
-template <> constexpr float Vector<2>::y() const { return data_[1]; }
-template <> constexpr float Vector<3>::y() const { return data_[1]; }
-template <> constexpr float Vector<4>::y() const { return data_[1]; }
-template <> constexpr float Vector<3>::z() const { return data_[2]; }
-template <> constexpr float Vector<4>::z() const { return data_[2]; }
-template <> constexpr float Vector<4>::w() const { return data_[3]; }
+template <std::size_t size> template <bool EnableBool>
+constexpr typename std::enable_if<Is2or3or4(size) && EnableBool, float>::type Vector<size>::x() const {
+  return data_[0];
+}
 
-template <> void Vector<2>::set_x(float x) { data_[0] = x; }
-template <> void Vector<3>::set_x(float x) { data_[0] = x; }
-template <> void Vector<4>::set_x(float x) { data_[0] = x; }
-template <> void Vector<2>::set_y(float y) { data_[1] = y; }
-template <> void Vector<3>::set_y(float y) { data_[1] = y; }
-template <> void Vector<4>::set_y(float y) { data_[1] = y; }
-template <> void Vector<3>::set_z(float z) { data_[2] = z; }
-template <> void Vector<4>::set_z(float z) { data_[2] = z; }
-template <> void Vector<4>::set_w(float w) { data_[3] = w; }
+template <std::size_t size> template <bool EnableBool>
+constexpr typename std::enable_if<Is2or3or4(size) && EnableBool, float>::type Vector<size>::y() const {
+  return data_[1];
+}
+
+template <std::size_t size> template <bool EnableBool>
+constexpr typename std::enable_if<Is3or4(size) && EnableBool, float>::type Vector<size>::z() const {
+  return data_[2];
+}
+
+template <std::size_t size> template <bool EnableBool>
+constexpr typename std::enable_if<Is4(size) && EnableBool, float>::type Vector<size>::w() const {
+  return data_[3];
+}
+
+template <std::size_t size> template <bool EnableBool>
+constexpr typename std::enable_if<Is2or3or4(size) && EnableBool>::type Vector<size>::set_x(float x) {
+  data_[0] = x;
+}
+
+template <std::size_t size> template <bool EnableBool>
+constexpr typename std::enable_if<Is2or3or4(size) && EnableBool>::type Vector<size>::set_y(float y) {
+  data_[1] = y;
+}
+
+template <std::size_t size> template <bool EnableBool>
+constexpr typename std::enable_if<Is3or4(size) && EnableBool>::type Vector<size>::set_z(float z) {
+  data_[2] = z;
+}
+
+template <std::size_t size> template <bool EnableBool>
+constexpr typename std::enable_if<Is4(size) && EnableBool>::type Vector<size>::set_w(float w) {
+  data_[3] = w;
+}
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"
