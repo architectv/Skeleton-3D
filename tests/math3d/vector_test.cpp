@@ -1,6 +1,4 @@
 #include "gtest/gtest.h"
-#include "gtest/gtest-all.cc"
-#include "gtest/gtest_main.cc"
 
 #include "math3d/vector.h"
 #include "math3d/matrix.h"
