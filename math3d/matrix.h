@@ -24,19 +24,21 @@ class Matrix {
   constexpr Matrix() noexcept = default;
   constexpr Matrix(const std::initializer_list<float>& list) noexcept;
   constexpr Matrix(float scalar);
-  Matrix(const Vector<cols>& col);
 
-  constexpr static Matrix identify() noexcept;
+  constexpr static Matrix identity() noexcept;
 
   reference operator[](std::size_t row);
   constexpr const_reference operator[](std::size_t row) const;
 
   reference at(std::size_t row);
-  constexpr const_reference at(std::size_t row) const;
+  const_reference at(std::size_t row) const;
 
   constexpr Matrix& operator+=(const Matrix& other);
   constexpr Matrix& operator-=(const Matrix& other);
-  template <std::size_t span> constexpr Matrix<rows, span>& operator*=(const Matrix<cols, span>& other);
+
+  template <std::size_t span>
+  constexpr Matrix<rows, span>& operator*=(const Matrix<cols, span>& other);
+
   constexpr Matrix& operator*=(float scalar);
 
   template <std::size_t rows_, std::size_t cols_>
@@ -68,8 +70,11 @@ template <std::size_t rows, std::size_t cols>
 constexpr Matrix<rows, cols>::Matrix(const std::initializer_list<float>& list) noexcept: Matrix() {
   auto it = list.begin();
   for (std::size_t i = 0; i != rows; ++i)
-    for (std::size_t j = 0; j != cols; ++j)
+    for (std::size_t j = 0; j != cols; ++j) {
       data_[i][j] = *it++;
+      if (it == list.end())
+        return;
+    }
 }
 
 template <std::size_t rows, std::size_t cols>
@@ -80,14 +85,7 @@ constexpr Matrix<rows, cols>::Matrix(float scalar) {
 }
 
 template <std::size_t rows, std::size_t cols>
-Matrix<rows, cols>::Matrix(const Vector<cols>& col) {
-  static_assert(cols == 1, "Must not be called on a matrix");
-  for (std::size_t i = 0; i != cols; ++i)
-    data_[i][0] = col[i];
-}
-
-template <std::size_t rows, std::size_t cols>
-constexpr Matrix<rows, cols> Matrix<rows, cols>::identify() noexcept {
+constexpr Matrix<rows, cols> Matrix<rows, cols>::identity() noexcept {
   Matrix<rows, cols> identify(1);
   return identify;
 }
@@ -112,7 +110,7 @@ typename Matrix<rows, cols>::reference Matrix<rows, cols>::at(std::size_t row) {
 }
 
 template <std::size_t rows, std::size_t cols>
-constexpr typename Matrix<rows, cols>::const_reference Matrix<rows, cols>::at(std::size_t row) const {
+typename Matrix<rows, cols>::const_reference Matrix<rows, cols>::at(std::size_t row) const {
   if (row >= rows)
     throw std::out_of_range("Out of range");
   return data_[row];

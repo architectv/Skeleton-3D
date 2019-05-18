@@ -47,7 +47,7 @@ class Vector {
   constexpr const_reference operator[](std::size_t index) const;
 
   reference at(std::size_t index);
-  constexpr const_reference at(std::size_t index) const;
+  const_reference at(std::size_t index) const;
 
   reference front();
   constexpr const_reference front() const;
@@ -85,16 +85,16 @@ class Vector {
   constexpr static Vector<size> CrossProduct(const Vector<size>& v1, const Vector<size>& v2) = delete;
   constexpr static float SkewProduct(const Vector<size>& v1, const Vector<size>& v2) = delete;
 
-  constexpr Vector<size> Normalized() const;
-  constexpr void Normalize();
+  Vector<size> Normalized() const;
+  void Normalize();
 
-  static constexpr Vector<size> Normal(const Vector<size>& v1, const Vector<size>& v2) = delete;
-  static constexpr Vector<size> Normal(const Vector<size>& v1, const Vector<size>& v2, const Vector<size>& v3) = delete;
+  static Vector<size> Normal(const Vector<size>& v1, const Vector<size>& v2) = delete;
+  static Vector<size> Normal(const Vector<size>& v1, const Vector<size>& v2, const Vector<size>& v3) = delete;
 
   constexpr float DistanceToPoint(const Vector<size>& point) const;
   constexpr float DistanceToLine(const Vector<size>& point, const Vector<size>& direction) const;
   constexpr float DistanceToPlane(const Vector<size>& plane, const Vector<size>& normal) const = delete;
-  constexpr float DistanceToPlane(const Vector<size>& plane1, const Vector<size>& plane2, const Vector<size>& plane3) const = delete;
+  float DistanceToPlane(const Vector<size>& plane1, const Vector<size>& plane2, const Vector<size>& plane3) const = delete;
 
   constexpr Vector<size>& operator+=(const Vector<size>& other);
   constexpr Vector<size>& operator-=(const Vector<size>& other);
@@ -174,7 +174,7 @@ typename Vector<size>::reference Vector<size>::at(std::size_t index) {
 }
 
 template <std::size_t size>
-constexpr typename Vector<size>::const_reference Vector<size>::at(std::size_t index) const {
+typename Vector<size>::const_reference Vector<size>::at(std::size_t index) const {
   if (index >= size)
     throw std::out_of_range("Out of range");
   return data_[index];
@@ -281,7 +281,7 @@ constexpr bool Vector<size>::operator!=(const Vector<size>& other) const {
 template <std::size_t size>
 constexpr bool Vector<size>::FuzzyCompare(const Vector<size>& v1, const Vector<size>& v2) {
   for (std::size_t i = 0; i != size; ++i)
-    if (!FuzzyCompare(v1.data_[i], v2.data_[i]))
+    if (!::FuzzyCompare(v1.data_[i], v2.data_[i]))
       return false;
   return true;
 }
@@ -335,7 +335,7 @@ constexpr float Vector<2>::SkewProduct(const Vector<2>& v1, const Vector2 &v2) {
 }
 
 template <std::size_t size>
-constexpr Vector<size> Vector<size>::Normalized() const {
+Vector<size> Vector<size>::Normalized() const {
   const double sqr_len = DoubleDotProduct(*this, *this);
   if (FuzzyIsNull(sqr_len))
     return Vector<size>();
@@ -346,7 +346,7 @@ constexpr Vector<size> Vector<size>::Normalized() const {
 }
 
 template <std::size_t size>
-constexpr void Vector<size>::Normalize() {
+void Vector<size>::Normalize() {
   const double sqr_len = DoubleDotProduct(*this, *this);
   if (FuzzyIsNull(sqr_len) || (FuzzyIsNull(sqr_len - 1.0)))
     return;
@@ -355,12 +355,12 @@ constexpr void Vector<size>::Normalize() {
 }
 
 template <>
-constexpr Vector<3> Vector<3>::Normal(const Vector<3>& v1, const Vector<3>& v2) {
+Vector<3> Vector<3>::Normal(const Vector<3>& v1, const Vector<3>& v2) {
   return CrossProduct(v1, v2).Normalized();
 }
 
 template <>
-constexpr Vector<3> Vector<3>::Normal(const Vector<3>& v1, const Vector<3>& v2, const Vector<3>& v3) {
+Vector<3> Vector<3>::Normal(const Vector<3>& v1, const Vector<3>& v2, const Vector<3>& v3) {
   return CrossProduct(v2 - v1, v3 - v1).Normalized();
 }
 
@@ -383,7 +383,7 @@ constexpr float Vector<3>::DistanceToPlane(const Vector<3>& plane, const Vector<
 }
 
 template <>
-constexpr float Vector<3>::DistanceToPlane(const Vector<3>& plane1, const Vector<3>& plane2, const Vector<3>& plane3) const {
+float Vector<3>::DistanceToPlane(const Vector<3>& plane1, const Vector<3>& plane2, const Vector<3>& plane3) const {
   const Vector<3> n = Normal(plane2 - plane1, plane3 - plane1);
   return DotProduct(*this - plane1, n);
 }

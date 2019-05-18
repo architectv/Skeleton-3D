@@ -16,9 +16,9 @@ class Transform {
 
   constexpr Transform& Translate(const Vector3& delta);
   constexpr Transform& Scale(const Vector3& factor);
-  constexpr Transform& RotateX(float angle);
-  constexpr Transform& RotateY(float angle);
-  constexpr Transform& RotateZ(float angle);
+  Transform& RotateX(float angle);
+  Transform& RotateY(float angle);
+  Transform& RotateZ(float angle);
 
   constexpr Vector3 map(const Vector3& vector);
 
@@ -29,7 +29,7 @@ class Transform {
   Matrix4 matrix_;
 };
 
-constexpr Transform::Transform() noexcept: matrix_(Matrix4::identify()) {}
+constexpr Transform::Transform() noexcept: matrix_(Matrix4::identity()) {}
 
 constexpr Transform::Transform(const std::initializer_list<float>& list) noexcept: matrix_(list) {}
 
@@ -53,7 +53,7 @@ constexpr Transform& Transform::Scale(const Vector3& factor) {
   return *this;
 }
 
-constexpr Transform& Transform::RotateX(float angle) {
+Transform& Transform::RotateX(float angle) {
   angle = ToRadians(angle);
   const float s = std::sin(angle);
   const float c = std::cos(angle);
@@ -68,7 +68,7 @@ constexpr Transform& Transform::RotateX(float angle) {
   return *this;
 }
 
-constexpr Transform& Transform::RotateY(float angle) {
+Transform& Transform::RotateY(float angle) {
   angle = ToRadians(angle);
   const float s = std::sin(angle);
   const float c = std::cos(angle);
@@ -83,7 +83,7 @@ constexpr Transform& Transform::RotateY(float angle) {
   return *this;
 }
 
-constexpr Transform& Transform::RotateZ(float angle) {
+Transform& Transform::RotateZ(float angle) {
   angle = ToRadians(angle);
   const float s = std::sin(angle);
   const float c = std::cos(angle);
