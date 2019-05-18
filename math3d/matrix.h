@@ -144,7 +144,7 @@ constexpr Matrix<rows, cols> operator-(const Matrix<rows, cols>& m1, const Matri
 
 template <std::size_t rows, std::size_t cols, std::size_t span>
 constexpr Matrix<rows, span> operator*(const Matrix<rows, cols>& m1, const Matrix<cols, span>& m2) {
-  Matrix<rows, cols>(m1) *= m2;
+  return Matrix<rows, cols>(m1) *= m2;
 }
 
 template <std::size_t rows, std::size_t cols>
