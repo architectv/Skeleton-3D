@@ -39,4 +39,12 @@ constexpr static inline T Sqr(T t) {
   return t * t;
 }
 
-#endif  // GLOBAL_H_
+constexpr static inline float ToRadians(float angle) {
+  return angle * M_PI / 180.0f;
+}
+
+constexpr static inline float ToDegrees(float angle) {
+  return angle * 180.f / M_PI;
+}
+
+#endif // GLOBAL_H_
