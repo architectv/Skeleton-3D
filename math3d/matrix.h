@@ -42,21 +42,6 @@ class Matrix {
   constexpr Matrix& operator*=(float scalar);
 
   template <std::size_t rows_, std::size_t cols_>
-  friend constexpr Matrix<rows_, cols_> operator+(const Matrix<rows_, cols_>& m1, const Matrix<rows_, cols_>& m2);
-
-  template <std::size_t rows_, std::size_t cols_>
-  friend constexpr Matrix<rows_, cols_> operator-(const Matrix<rows_, cols_>& m1, const Matrix<rows_, cols_>& m2);
-
-  template <std::size_t rows_, std::size_t cols_, std::size_t span_>
-  friend constexpr Matrix<rows_, span_> operator*(const Matrix<rows_, cols_>& m1, const Matrix<cols_, span_>& m2);
-
-  template <std::size_t rows_, std::size_t cols_>
-  friend constexpr Matrix<rows_, cols_> operator*(const Matrix<rows_, cols_>& matrix, float scalar);
-
-  template <std::size_t rows_, std::size_t cols_>
-  friend constexpr Vector<rows_ - 1> operator*(const Matrix<rows_, cols_>& matrix, const Vector<rows_ - 1>& vector);
-
-  template <std::size_t rows_, std::size_t cols_>
   friend std::istream& operator>>(std::istream& is, Matrix<rows_, cols_>& matrix);
 
   template <std::size_t rows_, std::size_t cols_>

@@ -61,15 +61,15 @@ class Vector {
   iterator end();
   constexpr const_iterator end() const;
 
-  template <bool EnableBool = true> constexpr typename std::enable_if<Is2or3or4(size) && EnableBool, float>::type x() const;
-  template <bool EnableBool = true> constexpr typename std::enable_if<Is2or3or4(size) && EnableBool, float>::type y() const;
-  template <bool EnableBool = true> constexpr typename std::enable_if<Is3or4(size) && EnableBool, float>::type z() const;
-  template <bool EnableBool = true> constexpr typename std::enable_if<Is4(size) && EnableBool, float>::type w() const;
+  template <bool EnableBool = true> constexpr std::enable_if_t<Is2or3or4(size) && EnableBool, float> x() const;
+  template <bool EnableBool = true> constexpr std::enable_if_t<Is2or3or4(size) && EnableBool, float> y() const;
+  template <bool EnableBool = true> constexpr std::enable_if_t<Is3or4(size) && EnableBool, float> z() const;
+  template <bool EnableBool = true> constexpr std::enable_if_t<Is4(size) && EnableBool, float> w() const;
 
-  template <bool EnableBool = true> constexpr typename std::enable_if<Is2or3or4(size) && EnableBool>::type set_x(float x);
-  template <bool EnableBool = true> constexpr typename std::enable_if<Is2or3or4(size) && EnableBool>::type set_y(float y);
-  template <bool EnableBool = true> constexpr typename std::enable_if<Is3or4(size) && EnableBool>::type set_z(float z);
-  template <bool EnableBool = true> constexpr typename std::enable_if<Is4(size) && EnableBool>::type set_w(float w);
+  template <bool EnableBool = true> constexpr std::enable_if_t<Is2or3or4(size) && EnableBool> set_x(float x);
+  template <bool EnableBool = true> constexpr std::enable_if_t<Is2or3or4(size) && EnableBool> set_y(float y);
+  template <bool EnableBool = true> constexpr std::enable_if_t<Is3or4(size) && EnableBool> set_z(float z);
+  template <bool EnableBool = true> constexpr std::enable_if_t<Is4(size) && EnableBool> set_w(float w);
 
   constexpr bool operator==(const Vector<size>& other) const;
   constexpr bool operator!=(const Vector<size>& other) const;
@@ -103,17 +103,6 @@ class Vector {
   constexpr Vector<size>& operator/=(float divisor);
   constexpr Vector<size>& operator/=(double divisor);
   constexpr Vector<size>& operator/=(const Vector<size>& other);
-
-  template <std::size_t size_> friend constexpr Vector<size_> operator+(const Vector<size_>& v1, const Vector<size_>& v2);
-  template <std::size_t size_> friend constexpr Vector<size_> operator+(const Vector<size_>& vector);
-  template <std::size_t size_> friend constexpr Vector<size_> operator-(const Vector<size_>& v1, const Vector<size_>& v2);
-  template <std::size_t size_> friend constexpr Vector<size_> operator-(const Vector<size_>& vector);
-  template <std::size_t size_> friend constexpr Vector<size_> operator*(const Vector<size_>& vector, float factor);
-  template <std::size_t size_> friend constexpr Vector<size_> operator*(float factor, const Vector<size_>& vector);
-  template <std::size_t size_> friend constexpr Vector<size_> operator*(const Vector<size_>& v1, const Vector<size_>& v2);
-  template <std::size_t size_> friend constexpr Vector<size_> operator/(const Vector<size_>& vector, float divisor);
-  template <std::size_t size_> friend constexpr Vector<size_> operator/(const Vector<size_>& vector, double divisor);
-  template <std::size_t size_> friend constexpr Vector<size_> operator/(const Vector<size_>& v1, const Vector<size_>& v2);
 
   template <std::size_t size_> friend std::istream& operator>>(std::istream& is, Vector<size_>& vector);
   template <std::size_t size_> friend std::ostream& operator<<(std::ostream& os, const Vector<size_>& vector);
@@ -221,42 +210,42 @@ constexpr typename Vector<size>::const_iterator Vector<size>::end() const {
 }
 
 template <std::size_t size> template <bool EnableBool>
-constexpr typename std::enable_if<Is2or3or4(size) && EnableBool, float>::type Vector<size>::x() const {
+constexpr std::enable_if_t<Is2or3or4(size) && EnableBool, float> Vector<size>::x() const {
   return data_[0];
 }
 
 template <std::size_t size> template <bool EnableBool>
-constexpr typename std::enable_if<Is2or3or4(size) && EnableBool, float>::type Vector<size>::y() const {
+constexpr std::enable_if_t<Is2or3or4(size) && EnableBool, float> Vector<size>::y() const {
   return data_[1];
 }
 
 template <std::size_t size> template <bool EnableBool>
-constexpr typename std::enable_if<Is3or4(size) && EnableBool, float>::type Vector<size>::z() const {
+constexpr std::enable_if_t<Is3or4(size) && EnableBool, float> Vector<size>::z() const {
   return data_[2];
 }
 
 template <std::size_t size> template <bool EnableBool>
-constexpr typename std::enable_if<Is4(size) && EnableBool, float>::type Vector<size>::w() const {
+constexpr std::enable_if_t<Is4(size) && EnableBool, float> Vector<size>::w() const {
   return data_[3];
 }
 
 template <std::size_t size> template <bool EnableBool>
-constexpr typename std::enable_if<Is2or3or4(size) && EnableBool>::type Vector<size>::set_x(float x) {
+constexpr std::enable_if_t<Is2or3or4(size) && EnableBool> Vector<size>::set_x(float x) {
   data_[0] = x;
 }
 
 template <std::size_t size> template <bool EnableBool>
-constexpr typename std::enable_if<Is2or3or4(size) && EnableBool>::type Vector<size>::set_y(float y) {
+constexpr std::enable_if_t<Is2or3or4(size) && EnableBool> Vector<size>::set_y(float y) {
   data_[1] = y;
 }
 
 template <std::size_t size> template <bool EnableBool>
-constexpr typename std::enable_if<Is3or4(size) && EnableBool>::type Vector<size>::set_z(float z) {
+constexpr std::enable_if_t<Is3or4(size) && EnableBool> Vector<size>::set_z(float z) {
   data_[2] = z;
 }
 
 template <std::size_t size> template <bool EnableBool>
-constexpr typename std::enable_if<Is4(size) && EnableBool>::type Vector<size>::set_w(float w) {
+constexpr std::enable_if_t<Is4(size) && EnableBool> Vector<size>::set_w(float w) {
   data_[3] = w;
 }
 
@@ -332,60 +321,6 @@ constexpr Vector<3> Vector<3>::CrossProduct(const Vector<3>& v1, const Vector<3>
 template <>
 constexpr float Vector<2>::SkewProduct(const Vector<2>& v1, const Vector2 &v2) {
   return v1.data_[0] * v2.data_[1] - v1.data_[1] * v2.data_[0];
-}
-
-template <std::size_t size>
-Vector<size> Vector<size>::Normalized() const {
-  const double sqr_len = DoubleDotProduct(*this, *this);
-  if (FuzzyIsNull(sqr_len))
-    return Vector<size>();
-  if (FuzzyIsNull(sqr_len - 1.0))
-    return *this;
-  const double len = std::sqrt(sqr_len);
-  return *this / len;
-}
-
-template <std::size_t size>
-void Vector<size>::Normalize() {
-  const double sqr_len = DoubleDotProduct(*this, *this);
-  if (FuzzyIsNull(sqr_len) || (FuzzyIsNull(sqr_len - 1.0)))
-    return;
-  const double len = std::sqrt(sqr_len);
-  *this /= len;
-}
-
-template <>
-Vector<3> Vector<3>::Normal(const Vector<3>& v1, const Vector<3>& v2) {
-  return CrossProduct(v1, v2).Normalized();
-}
-
-template <>
-Vector<3> Vector<3>::Normal(const Vector<3>& v1, const Vector<3>& v2, const Vector<3>& v3) {
-  return CrossProduct(v2 - v1, v3 - v1).Normalized();
-}
-
-template <std::size_t size>
-constexpr float Vector<size>::DistanceToPoint(const Vector<size>& point) const {
-  return (*this - point).length();
-}
-
-template <std::size_t size>
-constexpr float Vector<size>::DistanceToLine(const Vector<size>& point, const Vector<size>& direction) const {
-  if (direction.IsNull())
-    return (*this - point).length();
-  const Vector<size> p = point + DotProduct(*this - point, direction) * direction;
-  return (*this - p).length();
-}
-
-template <>
-constexpr float Vector<3>::DistanceToPlane(const Vector<3>& plane, const Vector<3>& normal) const {
-  return DotProduct(*this - plane, normal);
-}
-
-template <>
-float Vector<3>::DistanceToPlane(const Vector<3>& plane1, const Vector<3>& plane2, const Vector<3>& plane3) const {
-  const Vector<3> n = Normal(plane2 - plane1, plane3 - plane1);
-  return DotProduct(*this - plane1, n);
 }
 
 template <std::size_t size>
@@ -487,6 +422,60 @@ constexpr Vector<size> operator/(const Vector<size>& vector, double divisor) {
 template <std::size_t size>
 constexpr Vector<size> operator/(const Vector<size>& v1, const Vector<size>& v2) {
   return Vector<size>(v1) /= v2;
+}
+
+template <std::size_t size>
+Vector<size> Vector<size>::Normalized() const {
+  const double sqr_len = DoubleDotProduct(*this, *this);
+  if (FuzzyIsNull(sqr_len))
+    return Vector<size>();
+  if (FuzzyIsNull(sqr_len - 1.0))
+    return *this;
+  const double len = std::sqrt(sqr_len);
+  return *this / len;
+}
+
+template <std::size_t size>
+void Vector<size>::Normalize() {
+  const double sqr_len = DoubleDotProduct(*this, *this);
+  if (FuzzyIsNull(sqr_len) || (FuzzyIsNull(sqr_len - 1.0)))
+    return;
+  const double len = std::sqrt(sqr_len);
+  *this /= len;
+}
+
+template <>
+Vector<3> Vector<3>::Normal(const Vector<3>& v1, const Vector<3>& v2) {
+  return CrossProduct(v1, v2).Normalized();
+}
+
+template <>
+Vector<3> Vector<3>::Normal(const Vector<3>& v1, const Vector<3>& v2, const Vector<3>& v3) {
+  return CrossProduct(v2 - v1, v3 - v1).Normalized();
+}
+
+template <std::size_t size>
+constexpr float Vector<size>::DistanceToPoint(const Vector<size>& point) const {
+  return (*this - point).length();
+}
+
+template <std::size_t size>
+constexpr float Vector<size>::DistanceToLine(const Vector<size>& point, const Vector<size>& direction) const {
+  if (direction.IsNull())
+    return (*this - point).length();
+  const Vector<size> p = point + DotProduct(*this - point, direction) * direction;
+  return (*this - p).length();
+}
+
+template <>
+constexpr float Vector<3>::DistanceToPlane(const Vector<3>& plane, const Vector<3>& normal) const {
+  return DotProduct(*this - plane, normal);
+}
+
+template <>
+float Vector<3>::DistanceToPlane(const Vector<3>& plane1, const Vector<3>& plane2, const Vector<3>& plane3) const {
+  const Vector<3> n = Normal(plane2 - plane1, plane3 - plane1);
+  return DotProduct(*this - plane1, n);
 }
 
 template <std::size_t size>
