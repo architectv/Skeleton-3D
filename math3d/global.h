@@ -8,6 +8,9 @@
 static_assert(sizeof (double) == 8, "double must be 8 bytes");
 static_assert(sizeof (float) == 4, "float must be 4 bytes");
 
+template <typename T>
+struct TypeTraits;
+
 template <typename FloatingPoint>
 constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, bool> Fabs(FloatingPoint x) {
   return x >= 0 ? x : -x;
@@ -33,30 +36,50 @@ constexpr auto Max(const T& a, const U& b, const Args&... args) -> std::common_t
   return Max(Max(a, b), args...);
 }
 
-constexpr bool FuzzyCompare(double d1, double d2) {
-  return Fabs(d1 - d2) * 1e12 <= Min(Fabs(d1), Fabs(d2));
+template <typename FloatingPoint>
+constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, bool> FuzzyCompare(FloatingPoint v1, FloatingPoint v2) {
+  return Fabs(v1 - v2) * TypeTraits<FloatingPoint>::exp <= Min(Fabs(v1), Fabs(v2));
 }
 
-constexpr bool FuzzyCompare(float f1, float f2) {
-  return Fabs(f1 - f2) * 1e5f <= Min(Fabs(f1), Fabs(f2));
+template <typename FloatingPoint>
+constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, bool> FuzzyIsNull(FloatingPoint value) {
+  return Fabs(value) <= TypeTraits<FloatingPoint>::eps;
 }
 
-constexpr bool FuzzyIsNull(double d) {
-  return Fabs(d) <= 1e-12;
-}
+// std::numeric_limits<T>::epsilon()
+template <typename T>
+struct TypeTraits {
+  constexpr const static T eps = T{};
 
-constexpr bool FuzzyIsNull(float f) {
-  return Fabs(f) <= 1e-5f;
-}
+  constexpr static bool equals(const T& a, const T& b) { return a == b; }
+};
 
-constexpr bool IsNull(double d) {
-  union U { double d; std::uint64_t u; } val = {d};
-  return (val.u & static_cast<std::uint64_t>(0x7fffffffffffffff)) == 0;
-}
+template <>
+struct TypeTraits<float> {
+  constexpr const static float eps = 1e-5f;
+  constexpr const static float exp = 1e5f;
 
-constexpr bool IsNull(float f) {
-  union U { float f; std::uint32_t u; } val = {f};
-  return (val.u & 0x7fffffff) == 0;
+  using null_t = std::uint32_t;
+  constexpr const static null_t null = 0x7fffffff;
+
+  constexpr static bool equals(float a, float b) { return FuzzyCompare(a, b); }
+};
+
+template <>
+struct TypeTraits<double> {
+  constexpr const static double eps = 1e-12;
+  constexpr const static double exp = 1e12;
+
+  using null_t = std::uint64_t;
+  constexpr const static null_t null = 0x7fffffffffffffff;
+
+  constexpr static bool equals(double a, double b) { return FuzzyCompare(a, b); }
+};
+
+template <typename FloatingPoint>
+constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, bool> IsNull(FloatingPoint value) {
+  union { FloatingPoint f; typename TypeTraits<FloatingPoint>::null_t u; } val = {value};
+  return (val.u & static_cast<typename TypeTraits<FloatingPoint>::null_t>(TypeTraits<FloatingPoint>::null)) == 0;
 }
 
 template <typename T>
@@ -66,12 +89,12 @@ constexpr T Sqr(T t) {
 
 template <typename FloatingPoint>
 constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, FloatingPoint> ToRadians(FloatingPoint angle) {
-  return angle * M_PI / 180.0f;
+  return angle * M_PIl / 180.0;
 }
 
 template <typename FloatingPoint>
 constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, FloatingPoint> ToDegrees(FloatingPoint angle) {
-  return angle * 180.f / M_PI;
+  return angle * 180.0 / M_PIl;
 }
 
 #endif // GLOBAL_H_
