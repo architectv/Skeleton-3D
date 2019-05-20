@@ -163,10 +163,10 @@ Matrix3<T> Matrix3<T>::inverted_rigid() const {
 
 template <typename T>
 Vector2<T> Matrix3<T>::map_vector(const Vector2<T> &vector) const {
-  return ((*this) * Vector3<T>(vector, T(0))).xy();
+  return (Vector3<T>((*this) * Vector3<T>(vector, T(0)))).xy();
 }
 
 template<typename T>
 Vector2<T> Matrix3<T>::map_point(const Vector2<T> &vector) const {
-  return ((*this) * Vector3<T>(vector, T(1))).xy();
+  return (Vector3<T>((*this) * Vector3<T>(vector, T(1)))).xy();
 }

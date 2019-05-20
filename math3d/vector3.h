@@ -35,6 +35,8 @@ class Vector3 : public Vector<3, T> {
   reference z();
   constexpr const_reference z() const;
 
+  constexpr Vector2<T> xy() const;
+
   constexpr static Vector3 CrossProduct(const Vector3& v1, const Vector3& v2);
 };
 

@@ -77,6 +77,11 @@ constexpr typename Vector3<T>::const_reference Vector3<T>::z() const {
 }
 
 template <typename T>
+constexpr Vector2<T> Vector3<T>::xy() const {
+  return {x(), y()};
+}
+
+template <typename T>
 constexpr Vector3<T> Vector3<T>::CrossProduct(const Vector3<T> &v1, const Vector3<T> &v2) {
   return {
     v1.y() * v2.z() - v1.z() * v2.y(),

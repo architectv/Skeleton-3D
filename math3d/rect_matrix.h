@@ -70,11 +70,11 @@ RectMatrix<cols, rows, T> operator+(const RectMatrix<cols, rows, T>& matrix);
 template <std::size_t cols, std::size_t rows, typename T>
 RectMatrix<cols, rows, T> operator-(const RectMatrix<cols, rows, T>& matrix);
 
-template <std::size_t cols, std::size_t rows, typename T, typename U>
-RectMatrix<cols, rows, T> operator*(const RectMatrix<cols, rows, T>& matrix, U factor);
+template <std::size_t cols, std::size_t rows, typename T, typename ArithmeticType>
+std::enable_if_t<std::is_arithmetic<ArithmeticType>::value, RectMatrix<cols, rows, T>> operator*(const RectMatrix<cols, rows, T>& matrix, ArithmeticType factor);
 
-template <std::size_t cols, std::size_t rows, typename T, typename U>
-RectMatrix<cols, rows, T> operator/(const RectMatrix<cols, rows, T>& matrix, U divisor);
+template <std::size_t cols, std::size_t rows, typename T, typename ArithmeticType>
+std::enable_if_t<std::is_arithmetic<ArithmeticType>::value, RectMatrix<cols, rows, T>> operator/(const RectMatrix<cols, rows, T>& matrix, ArithmeticType divisor);
 
 template <std::size_t cols, std::size_t rows, typename T, std::size_t size>
 RectMatrix<size, rows, T> operator*(const RectMatrix<cols, rows, T>& m1, const RectMatrix<size, cols, T>& m2);
