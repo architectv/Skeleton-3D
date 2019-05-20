@@ -5,7 +5,7 @@
 #include <iostream>
 #include <iomanip>
 
-TEST(math3d, init) {
+TEST(vector, init) {
   Vector<10, int> v = {1, 2, 3, 4, 5};
   ASSERT_EQ(v[0], 1);
   ASSERT_EQ(v[1], 2);
@@ -15,21 +15,21 @@ TEST(math3d, init) {
   ASSERT_EQ(v[5], 0);
 }
 
-TEST(math3d, init2) {
+TEST(vector, init2) {
   Vector<10, int> v(-3);
   ASSERT_EQ(v[0], -3);
   ASSERT_EQ(v[1], -3);
   ASSERT_EQ(v[9], -3);
 }
 
-TEST(math3d, init3) {
+TEST(vector, init3) {
   Vector<10, int> v(10);
   Vector<5, int> vv(v);
   ASSERT_EQ(v[0], vv[0]);
   ASSERT_EQ(v[4], vv[4]);
 }
 
-TEST(math3d, at) {
+TEST(vector, at) {
   Vector<10, int> v = {1, 10, 2, 9, 3, 4};
   ASSERT_EQ(v.at(0), 1);
   ASSERT_EQ(v.at(1), 10);
@@ -39,7 +39,7 @@ TEST(math3d, at) {
   ASSERT_EQ(v.at(5), 4);
 }
 
-TEST(math3d, frontbackbeginend) {
+TEST(vector, frontbackbeginend) {
   Vector<10, int> v = {1, 10, 2, 9, 3, 4};
   ASSERT_EQ(v.front(), 1);
   ASSERT_EQ(v.back(), 0);
@@ -50,7 +50,7 @@ TEST(math3d, frontbackbeginend) {
   ASSERT_EQ(*(v.end() - 1), 5);
 }
 
-TEST(math3d, coordaccess) {
+TEST(vector, coordaccess) {
   Vector2i v1(1);
   ASSERT_TRUE(v1.x() && v1.y());
 
@@ -61,7 +61,7 @@ TEST(math3d, coordaccess) {
   ASSERT_TRUE(v3.x() && v3.y() && v3.z() && v3.w());
 }
 
-TEST(math3d, coordchange) {
+TEST(vector, coordchange) {
   Vector2i v1(1);
   ASSERT_TRUE(v1.x() && v1.y());
   v1.y() = 0;
@@ -78,7 +78,7 @@ TEST(math3d, coordchange) {
   ASSERT_FALSE(v3.x() && v3.y() && v3.z() && v3.w());
 }
 
-TEST(math3d, equal) {
+TEST(vector, equal) {
   Vector<10, float> v1(5);
   Vector<10, float> v2(5);
   ASSERT_TRUE(v1 == v2);
@@ -92,7 +92,7 @@ TEST(math3d, equal) {
   ASSERT_FALSE(FuzzyCompare(v4, v3));
 }
 
-TEST(math3d, isnull) {
+TEST(vector, isnull) {
   Vector<10, int> v1(0);
   ASSERT_TRUE(v1.IsNull());
 
@@ -100,7 +100,7 @@ TEST(math3d, isnull) {
   ASSERT_FALSE(v2.IsNull());
 }
 
-TEST(math3d, isnormal) {
+TEST(vector, isnormal) {
   Vector2f v1 = {0, 1};
   ASSERT_TRUE(v1.IsNormalized());
 
@@ -108,7 +108,7 @@ TEST(math3d, isnormal) {
   ASSERT_FALSE(v2.IsNormalized());
 }
 
-TEST(math3d, length) {
+TEST(vector, length) {
   Vector2i v1 = {0, 1};
   ASSERT_TRUE(v1.length() == 1);
 
@@ -122,7 +122,7 @@ TEST(math3d, length) {
   ASSERT_TRUE(v4.length() == 3);
 }
 
-TEST(math3d, vectorcross) {
+TEST(vector, vectorcross) {
   Vector3i v1 = {2, 1, -3};
   Vector3i v2 = {0, -1, 1};
   Vector3i vres = Vector3i::CrossProduct(v1, v2);
@@ -131,7 +131,7 @@ TEST(math3d, vectorcross) {
   ASSERT_TRUE(vres == right);
 }
 
-TEST(math3d, mathvector) {
+TEST(vector, mathvector) {
   Vector3i v1 = {2, 1, -3};
   Vector3i v2 = {0, -1, 1};
   Vector3i vres1 = {2, 0, -2};
@@ -144,7 +144,7 @@ TEST(math3d, mathvector) {
   ASSERT_TRUE(vres3 == (v2 - v1));
 }
 
-TEST(math3d, normalizing) {
+TEST(vector, normalizing) {
   Vector3f v1 = {2, 1, -3};
   ASSERT_TRUE(v1.normalized().IsNormalized());
 }

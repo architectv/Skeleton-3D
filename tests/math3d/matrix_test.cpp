@@ -1,22 +1,21 @@
 #include "gtest/gtest.h"
 
-#include "math3d/vector.h"
-#include "math3d/matrix.h"
-#include "math3d/transform.h"
+#include "math3d/matrix4.h"
+#include "math3d/matrix3.h"
 
 #include <iostream>
 #include <iomanip>
 
-TEST(math3d, init)
+TEST(matrix, init)
 {
-    Matrix3 m(2);
+    Matrix3i m(2);
     ASSERT_TRUE(m[0][0] == 2);
     ASSERT_FALSE(m[2][2] == 0);
 }
 
-TEST(math3d, inits)
+TEST(matrix, inits)
 {
-    Matrix3 m = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+    Matrix3i m{{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
     ASSERT_TRUE(m[0][0] == 0);
     ASSERT_TRUE(m[0][1] == 1);
     ASSERT_TRUE(m[0][2] == 2);
@@ -28,46 +27,45 @@ TEST(math3d, inits)
     ASSERT_TRUE(m[2][2] == 8);
 }
 
-TEST(math3d, ident)
+TEST(matrix, ident)
 {
-    Matrix3 m = {0, 1, 2, 3, 4, 5, 6, 7, 8};
-    Matrix3 m1 = m.identity();
+    Matrix3i m1;
     ASSERT_TRUE(m1[0][0] == 1);
     ASSERT_TRUE(m1[0][1] == 0); 
 }
 
-TEST(math3d, plus)
+TEST(matrix, plus)
 {
-    Matrix3 m = {0, 1, 2, 3, 4, 5, 6, 7, 8};
-    Matrix3 m1 = {8, 7, 6, 5, 4, 3, 2, 1, 0};
-    Matrix3 mres = m + m1;
+    Matrix3i m{{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+    Matrix3i m1{{8, 7, 6}, {5, 4, 3}, {2, 1, 0}};
+    Matrix3i mres(m + m1);
     ASSERT_TRUE(mres[0][0] == mres[2][2]);
     ASSERT_TRUE(m1[0][0] == 8); 
 }
 
 
-TEST(math3d, Xtest)
+TEST(matrix, Xtest)
 {
-    Matrix3 m = {0, 1, 2, 3, 4, 5, 6, 7, 8};
-    Matrix3 m1 = {8, 7, 6, 5, 4, 3, 2, 1, 0};
-    Matrix3 mres = m * m1;
-    ASSERT_TRUE(mres[0][0] == 9);
-    ASSERT_TRUE(mres[0][1] == 6);
-    ASSERT_TRUE(mres[0][2] == 3);
-    ASSERT_TRUE(mres[1][0] == 54);
-    ASSERT_TRUE(mres[1][1] == 42);
-    ASSERT_TRUE(mres[1][2] == 30);
-    ASSERT_TRUE(mres[2][0] == 99);
-    ASSERT_TRUE(mres[2][1] == 78);
-    ASSERT_TRUE(mres[2][2] == 57);
+    Matrix3i m{{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+    Matrix3i m1{{8, 7, 6}, {5, 4, 3}, {2, 1, 0}};
+    Matrix3i mres{m * m1};
+    ASSERT_EQ(mres[0][0], 57);
+    ASSERT_EQ(mres[0][1], 78);
+    ASSERT_EQ(mres[0][2], 99);
+    ASSERT_EQ(mres[1][0], 30);
+    ASSERT_EQ(mres[1][1], 42);
+    ASSERT_EQ(mres[1][2], 54);
+    ASSERT_EQ(mres[2][0], 3);
+    ASSERT_EQ(mres[2][1], 6);
+    ASSERT_EQ(mres[2][2], 9);
 }
 
-TEST(math3d, matrXvect)
+TEST(matrix, matrXvect)
 {
-    Matrix3 m = {0, 1, 2, 3, 4, 5, 6, 7, 8};
-    Vector2 v = {-3, -2};
+    Matrix3i m{{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
+    Vector2i v = {-3, -2};
 
-    Vector2 vecres = m * v;
-    ASSERT_TRUE(vecres[0] == 0);
-    ASSERT_TRUE(vecres[1] == -12);
+    Vector2i vecres{m.map_point(v)};
+    ASSERT_EQ(vecres[0], 0);
+    ASSERT_EQ(vecres[1], -4);
 }
