@@ -285,14 +285,14 @@ constexpr Vector<size, T> operator/(const Vector<size, T>& v1, const Vector<size
 template <std::size_t size, typename T>
 constexpr bool Vector<size, T>::IsNull() const {
   for (std::size_t i = 0; i != size; ++i)
-    if (!::IsNull(data_[i]))
+    if (!TypeTraits<T>::IsNull(data_[i]))
       return false;
   return true;
 }
 
 template <std::size_t size, typename T>
 constexpr bool Vector<size, T>::IsNormalized() const {
-  return FuzzyIsNull(DotProduct(*this, *this) - 1.0);
+  return TypeTraits<T>::equals(DotProduct(*this, *this), T(1));
 }
 
 template <std::size_t size, typename T>

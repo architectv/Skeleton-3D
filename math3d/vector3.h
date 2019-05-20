@@ -40,4 +40,7 @@ class Vector3 : public Vector<3, T> {
 
 #include "impl/vector3.hpp"
 
+using Vector3f = Vector3<float>;
+using Vector3i = Vector3<int>;
+
 #endif  // VECTOR3_H_

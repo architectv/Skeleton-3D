@@ -50,4 +50,7 @@ class Vector4 : public Vector<4, T> {
 
 #include "impl/vector4.hpp"
 
+using Vector4f = Vector4<float>;
+using Vector4i = Vector4<int>;
+
 #endif  // VECTOR4_H_

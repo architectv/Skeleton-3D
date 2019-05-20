@@ -12,7 +12,7 @@ template <typename T>
 struct TypeTraits;
 
 template <typename FloatingPoint>
-constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, bool> Fabs(FloatingPoint x) {
+constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, FloatingPoint> Fabs(FloatingPoint x) {
   return x >= 0 ? x : -x;
 }
 
@@ -52,6 +52,7 @@ struct TypeTraits {
   constexpr const static T eps = T{};
 
   constexpr static bool equals(const T& a, const T& b) { return a == b; }
+  constexpr static bool IsNull(const T& a) { return a == 0; }
 };
 
 template <>
@@ -63,6 +64,7 @@ struct TypeTraits<float> {
   constexpr const static null_t null = 0x7fffffff;
 
   constexpr static bool equals(float a, float b) { return FuzzyCompare(a, b); }
+  constexpr static bool IsNull(float a) { return FuzzyIsNull(a); }
 };
 
 template <>
@@ -74,13 +76,8 @@ struct TypeTraits<double> {
   constexpr const static null_t null = 0x7fffffffffffffff;
 
   constexpr static bool equals(double a, double b) { return FuzzyCompare(a, b); }
+  constexpr static bool IsNull(double a) { return FuzzyIsNull(a); }
 };
-
-template <typename FloatingPoint>
-constexpr std::enable_if_t<std::is_floating_point<FloatingPoint>::value, bool> IsNull(FloatingPoint value) {
-  union { FloatingPoint f; typename TypeTraits<FloatingPoint>::null_t u; } val = {value};
-  return (val.u & static_cast<typename TypeTraits<FloatingPoint>::null_t>(TypeTraits<FloatingPoint>::null)) == 0;
-}
 
 template <typename T>
 constexpr T Sqr(T t) {

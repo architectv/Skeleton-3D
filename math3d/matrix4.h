@@ -76,4 +76,7 @@ class Matrix4: public Matrix4x4<T> {
 
 #include "impl/matrix4.hpp"
 
+using Matrix4f = Matrix4<float>;
+using Matrix4i = Matrix4<int>;
+
 #endif  // MATRIX4_H_

@@ -60,4 +60,7 @@ template <typename T> class Matrix3: public Matrix3x3<T> {
 
 #include "impl/matrix3.hpp"
 
+using Matrix3f = Matrix3<float>;
+using Matrix3i = Matrix3<int>;
+
 #endif  // MATRIX3_H_

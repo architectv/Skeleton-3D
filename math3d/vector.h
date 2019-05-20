@@ -75,6 +75,7 @@ class Vector {
   template <typename U>
   constexpr Vector& operator/=(U divisor);
 
+
   constexpr bool IsNull() const;
   constexpr bool IsNormalized() const;
 
@@ -93,7 +94,7 @@ class Vector {
   std::enable_if_t<std::is_floating_point<U>::value, Vector> ProjectedOntoNormalized(const Vector& line) const;
 
  protected:
-  float data_[size];
+  T data_[size];
 };
 
 template <std::size_t size, typename T, typename U>

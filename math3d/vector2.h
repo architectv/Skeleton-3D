@@ -41,4 +41,7 @@ class Vector2 : public Vector<2, T> {
 
 #include "impl/vector2.hpp"
 
+using Vector2f = Vector2<float>;
+using Vector2i = Vector2<int>;
+
 #endif  // VECTOR2_H_
